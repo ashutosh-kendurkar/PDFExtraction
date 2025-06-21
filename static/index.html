@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PDF Uploader</title>
+</head>
+<body>
+    <h1>Upload PDF</h1>
+    <form id="uploadForm" method="post" enctype="multipart/form-data">
+        <label>Class: <input type="text" name="class" required></label><br>
+        <label>Subject: <input type="text" name="subject" required></label><br>
+        <label>Lesson: <input type="text" name="lesson" required></label><br>
+        <input type="file" name="file" required><br>
+        <button type="submit">Upload</button>
+    </form>
+    <p id="message"></p>
+    <script>
+    const form = document.getElementById('uploadForm');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+            document.getElementById('message').innerText = 'Upload successful';
+        } else {
+            document.getElementById('message').innerText = 'Upload failed';
+        }
+    });
+    </script>
+</body>
+</html>
+
